@@ -935,7 +935,37 @@ img {
     }
 
     .arch-connector-split {
+        height: 24px;
+        max-width: 100%;
+    }
+
+    .arch-connector-split::before {
+        height: 24px;
+    }
+
+    .arch-connector-split::after {
         display: none;
+    }
+
+    .arch-connector-split .arch-line-left,
+    .arch-connector-split .arch-line-right {
+        display: none;
+    }
+
+    /* Add connector between stacked frontend nodes */
+    .arch-layer-split .arch-node:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        bottom: -22px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 20px;
+        background: var(--border);
+    }
+
+    .arch-layer-split .arch-node {
+        position: relative;
     }
 
     .arch-node {
