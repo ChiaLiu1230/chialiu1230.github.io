@@ -105,3 +105,35 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+// ===== Image Carousel =====
+document.querySelectorAll('.carousel').forEach(carousel => {
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const prevBtn = carousel.querySelector('.carousel-btn-prev');
+    const nextBtn = carousel.querySelector('.carousel-btn-next');
+    const dotsContainer = carousel.querySelector('.carousel-dots');
+    let currentIndex = 0;
+
+    // Create dots
+    slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.setAttribute('aria-label', `跳到第 ${index + 1} 張`);
+        dot.addEventListener('click', () => goToSlide(index));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = carousel.querySelectorAll('.carousel-dot');
+
+    function goToSlide(index) {
+        slides[currentIndex].classList.remove('active');
+        dots[currentIndex].classList.remove('active');
+        currentIndex = (index + slides.length) % slides.length;
+        slides[currentIndex].classList.add('active');
+        dots[currentIndex].classList.add('active');
+    }
+
+    prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+    nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+});
