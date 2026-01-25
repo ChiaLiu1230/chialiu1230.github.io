@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ella Liu - 全端工程師，專精 iOS、Web、Flutter 開發">
+    <title>Ella Liu | 全端工程師</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">Ella Liu</a>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="#about">關於我</a></li>
+                <li><a href="#skills">技術棧</a></li>
+                <li><a href="#projects">作品集</a></li>
+                <li><a href="#experience">經歷</a></li>
+                <li><a href="#contact">聯絡</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Hi, 我是 <span class="highlight">Ella Liu</span></h1>
+            <p class="hero-subtitle">全端工程師 | App & Web Developer</p>
+            <p class="hero-description">
+                專注於 iOS、Web 與跨平台應用開發，擅長將需求轉化為實際產品。
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">查看作品</a>
+                <a href="#contact" class="btn btn-secondary">聯絡我</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">關於我</h2>
+            <div class="contact-links">
+                <a href="https://github.com/ChiaLiu1230" class="contact-item" id="github-link" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                    </svg>
+                    <span>GitHub</span>
+                </a>
+                <div class="contact-item">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <span>雙北地區</span>
+                </div>
+            </div>
+            <br>
+            <div class="about-content">
+                <p>
+                    我是一位全端工程師，具備 iOS、Web 前後端及 Flutter 跨平台開發經驗。
+                    熟悉從需求分析、架構設計到實作部署的完整開發流程。
+                </p>
+                <p>
+                    在工作中，我注重程式碼品質與系統穩定性，善於與團隊協作解決技術問題。
+                    我相信好的軟體來自於清晰的需求定義與紮實的技術實作。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">技術棧</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+                        </svg>
+                    </div>
+                    <h3>Frontend / Web</h3>
+                    <ul class="skill-list">
+                        <li>React / Next.js</li>
+                        <li>Vue.js</li>
+                        <li>TypeScript</li>
+                        <li>Tailwind CSS / Ant Design</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z" />
+                        </svg>
+                    </div>
+                    <h3>Mobile App</h3>
+                    <ul class="skill-list">
+                        <li>Swift (iOS) / UIKit / SwiftUI</li>
+                        <li>Kotlin (Android)</li>
+                        <li>Flutter (跨平台)</li>
+                        <li>MVVM / TCA 架構</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H4v-2h7v2zm0-4H4v-2h7v2zm0-4H4V7h7v2zm8.25 6.25L16.5 12.5l2.75-2.75-1.5-1.5-4.25 4.25 4.25 4.25 1.5-1.5z" />
+                        </svg>
+                    </div>
+                    <h3>Backend / API</h3>
+                    <ul class="skill-list">
+                        <li>Node.js / NestJS</li>
+                        <li>Python / Java</li>
+                        <li>PostgreSQL / MySQL</li>
+                        <li>Docker / RESTful API</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+                        </svg>
+                    </div>
+                    <h3>其他</h3>
+                    <ul class="skill-list">
+                        <li>Git / GitHub</li>
+                        <li>LINE Bot 開發</li>
+                        <li>自動化測試</li>
+                        <li>需求分析 / 系統設計</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">作品集</h2>
+            <div class="projects-grid">
+                <!-- Nexus Admin -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>智聯後台管理系統</h3>
+                        <p class="project-subtitle">Nexus Admin</p>
+                        <p class="project-description">
+                            中小企業後台管理系統，整合電商訂單、商品庫存、使用者權限管理功能。
+                            採用 RBAC 權限控制，支援多角色管理（Admin / Manager / Staff）。
+                        </p>
+                        <div class="project-features">
+                            <h4>主要功能</h4>
+                            <ul>
+                                <li>使用者管理與 RBAC 權限控制</li>
+                                <li>商品 CRUD 與分類管理</li>
+                                <li>訂單管理與狀態流轉</li>
+                                <li>庫存自動扣減</li>
+                                <li>JWT 認證機制</li>
+                            </ul>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">NestJS</span>
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">TypeScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/ChiaLiu1230/nexus-admin" class="project-link" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                    <path
+                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Nexus Web -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>智聯商城 Web</h3>
+                        <p class="project-subtitle">Nexus Web</p>
+                        <p class="project-description">
+                            電商購物網站前台，提供消費者瀏覽商品、購物車、下單等完整購物流程。
+                            採用 Next.js App Router，響應式設計支援各種裝置，響應式設計支援各種裝置。
+                        </p>
+                        <div class="project-features">
+                            <h4>主要功能</h4>
+                            <ul>
+                                <li>商品瀏覽與分類篩選</li>
+                                <li>購物車功能（本地持久化）</li>
+                                <li>訂單建立與查詢</li>
+                                <li>會員登入 / 註冊</li>
+                                <li>響應式設計 (RWD)</li>
+                            </ul>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Next.js</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">Tailwind CSS</span>
+                            <span class="tag">Zustand</span>
+                            <span class="tag">TanStack Query</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/ChiaLiu1230/nexus-web" class="project-link" target="_blank" rel="noopener">
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                    <path
+                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                </svg>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- System Architecture -->
+            <div class="architecture-section">
+                <h3>系統架構</h3>
+                <p>智聯系統採用前後端分離架構，後端提供統一 RESTful API，前台與後台共用同一資料庫</p>
+
+                <div class="arch-visual">
+                    <!-- Database Layer -->
+                    <div class="arch-layer">
+                        <div class="arch-node arch-database">
+                            <div class="arch-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.59 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.5 6 2s-2.13 2-6 2-6-1.5-6-2 2.13-2 6-2zm6 12c0 .5-2.13 2-6 2s-6-1.5-6-2v-2.23c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23V17zm0-4c0 .5-2.13 2-6 2s-6-1.5-6-2v-2.23c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23V13zm0-4c0 .5-2.13 2-6 2s-6-1.5-6-2V6.77C7.61 7.55 9.72 8 12 8s4.39-.45 6-1.23V9z" />
+                                </svg>
+                            </div>
+                            <div class="arch-label">PostgreSQL</div>
+                            <div class="arch-sublabel">Database</div>
+                        </div>
+                    </div>
+
+                    <!-- Connection Line -->
+                    <div class="arch-connector">
+                        <div class="arch-line"></div>
+                    </div>
+
+                    <!-- Backend Layer -->
+                    <div class="arch-layer">
+                        <div class="arch-node arch-backend">
+                            <div class="arch-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M20 3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H4v-2h7v2zm0-4H4v-2h7v2zm0-4H4V7h7v2zm8.25 6.25L16.5 12.5l2.75-2.75-1.5-1.5-4.25 4.25 4.25 4.25 1.5-1.5z" />
+                                </svg>
+                            </div>
+                            <div class="arch-label">NestJS Backend</div>
+                            <div class="arch-sublabel">RESTful API + JWT + RBAC</div>
+                        </div>
+                    </div>
+
+                    <!-- Connection Line with Split -->
+                    <div class="arch-connector-split">
+                        <div class="arch-line-left"></div>
+                        <div class="arch-line-right"></div>
+                    </div>
+
+                    <!-- Frontend Layer -->
+                    <div class="arch-layer arch-layer-split">
+                        <div class="arch-node arch-frontend">
+                            <div class="arch-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z" />
+                                </svg>
+                            </div>
+                            <div class="arch-label">Nexus Admin</div>
+                            <div class="arch-sublabel">管理後台 (Next.js)</div>
+                        </div>
+                        <div class="arch-node arch-frontend">
+                            <div class="arch-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                                </svg>
+                            </div>
+                            <div class="arch-label">Nexus Web</div>
+                            <div class="arch-sublabel">購物網站 (Next.js)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">工作經歷</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>QA 工程師</h3>
+                            <span class="timeline-company">雲端互動股份有限公司</span>
+                        </div>
+                        <span class="timeline-date">2025/09 – 至今</span>
+                        <ul class="timeline-details">
+                            <li>參與知名銀行企網銀開發與測試，負責前端功能實作與問題修正</li>
+                            <li>與設計、後端、產品團隊協作，提升系統穩定性與使用體驗</li>
+                            <li>依專案需求使用 Swift / Kotlin / Python 等技術</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>全端工程師</h3>
+                            <span class="timeline-company">馬在飛科技有限公司</span>
+                        </div>
+                        <span class="timeline-date">2025/03 – 2025/08</span>
+                        <ul class="timeline-details">
+                            <li>參與 Web 與 App 專案開發</li>
+                            <li>協助後端 API 串接與前端功能整合</li>
+                            <li>支援專案上線前測試與問題修正</li>
+                            <li>依專案需求使用 Swift / Kotlin / Flutter / React 等技術</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">聯絡我</h2>
+            <div class="contact-content">
+                <p>如果你對我的經歷有興趣，歡迎透過以下方式聯繫：</p>
+                <div class="contact-links">
+                    <a href="mailto:lyclc123002@gmail.com" class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                        </svg>
+                        <span>lyclc123002@gmail.com</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Ella Liu. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
