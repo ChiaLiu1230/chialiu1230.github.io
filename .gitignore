@@ -4,3 +4,16 @@
 # IDE
 .vscode/
 .idea/
+
+# Claude Code
+.claude/
+
+# note
+PROJECT-INFO.md
+PROMPT.md
+WORKFLOW.md
+
+# 建構工具（不需要部署）
+build.js
+config.js
+template.html

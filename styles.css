@@ -337,13 +337,180 @@ img {
 }
 
 /* ===== Projects Section ===== */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 32px;
-    margin-bottom: 60px;
+
+/* Section-level project carousel (peek effect) */
+.projects-carousel-outer {
+    position: relative;
+    overflow: hidden;
+    max-width: 1000px;
+    margin: 0 auto 60px;
 }
 
+.pj-viewport {
+    /* overflow is handled by projects-carousel-outer */
+    cursor: grab;
+}
+
+.pj-viewport:active {
+    cursor: grabbing;
+}
+
+.pj-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+/* Each slide: width set by JS; fade/scale for non-active */
+.pj-slide {
+    flex: 0 0 auto;
+    min-width: 0;
+    opacity: 0.45;
+    transform: scale(0.96);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.pj-slide.pj-active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Image in carousel: keep 16/9 so screenshots display without letterbox */
+.pj-slide .project-image {
+    aspect-ratio: 16/9;
+}
+
+/* 2:1 screenshots (Coach Web) */
+.pj-slide .project-image--wide {
+    aspect-ratio: 2/1;
+}
+
+/* Content area: fixed, no internal scroll */
+.pj-slide .project-content {
+    overflow: hidden;
+}
+
+/* Portrait duo layout: two phone screenshots side by side */
+.project-image-duo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: var(--bg-secondary);
+}
+
+.project-image-duo img {
+    height: 100%;
+    width: auto;
+    max-width: 45%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Image placeholder for projects without screenshots */
+.project-img-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(59, 130, 246, 0.06) 100%);
+    color: var(--text-muted);
+}
+
+.project-img-placeholder svg {
+    opacity: 0.4;
+}
+
+.project-img-placeholder span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* Controls row: prev button + dots + next button */
+.pj-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+/* Navigation buttons (in controls row below the card) */
+.pj-nav {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    color: var(--text-primary);
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.pj-nav:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+.pj-nav:disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Dots indicator */
+.pj-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.pj-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.pj-dot.active {
+    background: var(--accent);
+    width: 28px;
+    border-radius: 5px;
+}
+
+/* Base project card styles (standalone / grid fallback) */
 .project-card {
     background-color: var(--bg-card);
     border: 1px solid var(--border);
@@ -351,12 +518,22 @@ img {
     overflow: hidden;
     transition: var(--transition);
     box-shadow: var(--shadow);
+    /* Force compositing layer — fixes Safari overflow:hidden + border-radius
+       not clipping position:absolute children */
+    transform: translateZ(0);
 }
 
 .project-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-6px) translateZ(0);
     border-color: var(--accent);
     box-shadow: var(--shadow-lg);
+}
+
+/* No hover lift inside carousel — would look odd and cause clipping */
+.pj-slide .project-card:hover {
+    transform: translateZ(0);
+    border-color: var(--border);
+    box-shadow: var(--shadow);
 }
 
 .project-image {
@@ -390,8 +567,8 @@ img {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: top center;
+    object-fit: contain;
+    object-position: center;
     opacity: 0;
     transition: opacity 0.5s ease;
 }
@@ -467,11 +644,44 @@ img {
 }
 
 .project-content {
-    padding: 28px;
+    padding: 26px 30px;
+}
+
+/* Title row: name + subtitle on left, GitHub icon on right */
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.project-title-group {
+    flex: 1;
+    min-width: 0;
+}
+
+.project-github-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.project-github-btn:hover {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+    color: white;
 }
 
 .project-content h3 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
     margin-bottom: 4px;
 }
@@ -479,37 +689,37 @@ img {
 .project-subtitle {
     font-size: 0.9rem;
     color: var(--text-muted);
-    margin-bottom: 16px;
+    margin-bottom: 0;
 }
 
 .project-description {
     color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 20px;
-    line-height: 1.7;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    line-height: 1.65;
 }
 
 .project-features {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .project-features h4 {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .project-features ul {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 7px;
 }
 
 .project-features li {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     color: var(--text-secondary);
     padding-left: 20px;
     position: relative;
@@ -918,10 +1128,6 @@ img {
     }
 
     .skills-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .projects-grid {
         grid-template-columns: 1fr;
     }
 
