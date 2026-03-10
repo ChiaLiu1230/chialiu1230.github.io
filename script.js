@@ -150,6 +150,7 @@ window.addEventListener('scroll', () => {
             s.style.flexBasis = slideW + 'px';
         });
         updatePosition(false);
+        syncHeight();
     }
 
     function updatePosition(animate) {
@@ -173,10 +174,18 @@ window.addEventListener('scroll', () => {
         });
     }
 
+    function syncHeight() {
+        const card = slides[current].querySelector('.project-card');
+        const controls = outer.querySelector('.pj-controls');
+        if (!card || !controls) return;
+        outer.style.height = (card.offsetHeight + controls.offsetHeight + 20) + 'px';
+    }
+
     function goTo(index) {
         current = Math.max(0, Math.min(total - 1, index));
         updatePosition(true);
         updateActive();
+        syncHeight();
         prevBtn.disabled = current === 0;
         nextBtn.disabled = current === total - 1;
     }
@@ -190,9 +199,18 @@ window.addEventListener('scroll', () => {
         dotsContainer.appendChild(dot);
     });
 
-    slides[0].classList.add('pj-active');
-    setup();
-    prevBtn.disabled = true;
+    function init() {
+        slides[0].classList.add('pj-active');
+        setup();
+        syncHeight();
+        prevBtn.disabled = true;
+    }
+
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(init);
+    } else {
+        init();
+    }
 
     prevBtn.addEventListener('click', () => goTo(current - 1));
     nextBtn.addEventListener('click', () => goTo(current + 1));

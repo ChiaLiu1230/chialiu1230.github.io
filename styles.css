@@ -344,6 +344,7 @@ img {
     overflow: hidden;
     max-width: 1000px;
     margin: 0 auto 60px;
+    transition: height 0.45s ease;
 }
 
 .pj-viewport {
