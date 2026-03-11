@@ -341,14 +341,13 @@ img {
 /* Section-level project carousel (peek effect) */
 .projects-carousel-outer {
     position: relative;
-    overflow: hidden;
     max-width: 1000px;
     margin: 0 auto 60px;
     transition: height 0.45s ease;
 }
 
 .pj-viewport {
-    /* overflow is handled by projects-carousel-outer */
+    overflow: hidden;
     cursor: grab;
 }
 
