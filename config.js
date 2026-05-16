@@ -88,6 +88,24 @@ const CONFIG = {
       icon: "web"
     },
     {
+      name: "尼克車體包膜官網",
+      subtitle: "NIC WRAP",
+      description: "新北市新莊區專業汽機車包膜店的品牌形象官網，以高質感深色視覺呈現服務內容、施工案例與聯絡資訊。無框架純手寫實作，包含 Splash 開場動畫、深淺主題切換與拖曳輪播等互動效果。",
+      features: [
+        "Splash 開場動畫",
+        "深色 / 亮色主題切換（含全螢幕過場動畫，偏好儲存至 LocalStorage）",
+        "Hero 區塊：影片背景、社群連結、統計數字列",
+        "施工案例 Gallery（汽車 / 機車篩選、拖曳輪播、方向鍵控制）",
+        "顧客評價區塊（Google 評分 5.0、51 則）",
+        "SEO 優化（JSON-LD AutoRepair Schema、Open Graph、Sitemap）",
+        "聯絡資訊 + Google Maps 嵌入"
+      ],
+      tags: ["HTML5", "CSS3", "Vanilla JavaScript", "Google Fonts", "IntersectionObserver"],
+      images: ["NIC-WRAP-web-1.png", "NIC-WRAP-web-2.png", "NIC-WRAP-web-3.png"],
+      imageRatio: "wide",
+      icon: "web"
+    },
+    {
       name: "AI Agent 自動部署平台",
       subtitle: "Claw Host",
       description: "SaaS 平台，讓使用者一鍵取得專屬的 OpenClaw + AI Skill Server 部署環境，透過容器化技術實現 AI Agent 的快速上線與管理。",
