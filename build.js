@@ -1,9 +1,40 @@
 const fs = require('fs');
+const http = require('http');
 const path = require('path');
 
-const CONFIG = require('./config.js');
+const ROOT_DIR = __dirname;
+const CONFIG_PATH = path.join(ROOT_DIR, 'config.js');
+const TEMPLATE_PATH = path.join(ROOT_DIR, 'template.html');
+const OUTPUT_PATH = path.join(ROOT_DIR, 'index.html');
+const DEFAULT_PORT = 4173;
 
-// ===== Skill Icon SVGs =====
+const MIME_TYPES = {
+    '.css': 'text/css; charset=utf-8',
+    '.gif': 'image/gif',
+    '.html': 'text/html; charset=utf-8',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.js': 'application/javascript; charset=utf-8',
+    '.json': 'application/json; charset=utf-8',
+    '.png': 'image/png',
+    '.svg': 'image/svg+xml',
+    '.webp': 'image/webp'
+};
+
+const LIVE_RELOAD_SNIPPET = `
+<script>
+(() => {
+    const source = new EventSource('/__events');
+    source.addEventListener('reload', () => {
+        window.location.reload();
+    });
+    source.onerror = () => {
+        source.close();
+        setTimeout(() => window.location.reload(), 1000);
+    };
+})();
+</script>`;
+
 function getSkillIcon(type) {
     const icons = {
         web: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`,
@@ -14,7 +45,6 @@ function getSkillIcon(type) {
     return icons[type] || icons.other;
 }
 
-// ===== Architecture Icon SVGs =====
 function getArchIcon(type) {
     const icons = {
         database: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7.58 3 4 4.79 4 7v10c0 2.21 3.59 4 8 4s8-1.79 8-4V7c0-2.21-3.58-4-8-4zm0 2c3.87 0 6 1.5 6 2s-2.13 2-6 2-6-1.5-6-2 2.13-2 6-2zm6 12c0 .5-2.13 2-6 2s-6-1.5-6-2v-2.23c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23V17zm0-4c0 .5-2.13 2-6 2s-6-1.5-6-2v-2.23c1.61.78 3.72 1.23 6 1.23s4.39-.45 6-1.23V13zm0-4c0 .5-2.13 2-6 2s-6-1.5-6-2V6.77C7.61 7.55 9.72 8 12 8s4.39-.45 6-1.23V9z"/></svg>`,
@@ -24,15 +54,12 @@ function getArchIcon(type) {
     return icons[type] || '';
 }
 
-// Frontend nodes use a different icon (shopping cart for Nexus Web)
 function getArchFrontendIcon(name) {
     if (name.toLowerCase().includes('web')) {
         return `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2h7.45zM6.16 6h12.15l-2.76 5H8.53L6.16 6zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>`;
     }
     return getArchIcon('frontend');
 }
-
-// ===== Generate HTML Fragments =====
 
 function buildAboutHtml(about) {
     return about.map(p => `<p>${p}</p>`).join('\n                ');
@@ -61,14 +88,12 @@ function buildProjectImageHtml(project) {
                         </div>`;
     }
 
-    // Portrait images: display side by side
     if (project.imageLayout === 'duo-portrait') {
         return `<div class="project-image-duo">
                             ${project.images.map((img, i) => `<img src="images/${img}" alt="${project.name} 截圖 ${i + 1}">`).join('\n                            ')}
                         </div>`;
     }
 
-    // Default: carousel
     return `<div class="carousel" data-carousel>
                             <div class="carousel-slides">
                                 ${project.images.map((img, i) => `<img src="images/${img}" alt="${project.name} 截圖 ${i + 1}" class="carousel-slide${i === 0 ? ' active' : ''}">`).join('\n                                ')}
@@ -134,7 +159,6 @@ function buildExperiencesHtml(experiences) {
 function buildArchitectureHtml(architecture) {
     if (!architecture) return '';
 
-    // Separate layers by type
     const dbLayers = architecture.layers.filter(l => l.type === 'database');
     const backendLayers = architecture.layers.filter(l => l.type === 'backend');
     const frontendLayers = architecture.layers.filter(l => l.type === 'frontend');
@@ -161,7 +185,6 @@ function buildArchitectureHtml(architecture) {
 
                 <div class="arch-visual">`;
 
-    // Database layer
     if (dbLayers.length) {
         html += `
                     <!-- Database Layer -->
@@ -174,7 +197,6 @@ function buildArchitectureHtml(architecture) {
                     </div>`;
     }
 
-    // Backend layer
     if (backendLayers.length) {
         html += `
 
@@ -183,7 +205,6 @@ function buildArchitectureHtml(architecture) {
                     </div>`;
     }
 
-    // Connection to frontend
     if (frontendLayers.length) {
         html += `
 
@@ -205,36 +226,231 @@ function buildArchitectureHtml(architecture) {
     return html;
 }
 
-// ===== Main Build =====
-
-const templatePath = path.join(__dirname, 'template.html');
-const outputPath = path.join(__dirname, 'index.html');
-
-let html = fs.readFileSync(templatePath, 'utf-8');
-
-// Simple placeholders
-const replacements = {
-    '{{name}}': CONFIG.name,
-    '{{title}}': CONFIG.title,
-    '{{description}}': CONFIG.description,
-    '{{github}}': CONFIG.github,
-    '{{email}}': CONFIG.email,
-    '{{location}}': CONFIG.location,
-    '{{meta_description}}': `${CONFIG.name} - ${CONFIG.title}`,
-    '{{meta_title}}': `${CONFIG.name} | ${CONFIG.title.split(' | ')[0]}`,
-    '{{footer_year}}': CONFIG.footer.year,
-    '{{footer_name}}': CONFIG.footer.name,
-    // Complex HTML blocks
-    '{{about_html}}': buildAboutHtml(CONFIG.about),
-    '{{skills_html}}': buildSkillsHtml(CONFIG.skills),
-    '{{projects_html}}': buildProjectsHtml(CONFIG.projects),
-    '{{experiences_html}}': buildExperiencesHtml(CONFIG.experiences),
-    '{{architecture_html}}': buildArchitectureHtml(CONFIG.architecture),
-};
-
-for (const [placeholder, value] of Object.entries(replacements)) {
-    html = html.split(placeholder).join(value);
+function loadConfig() {
+    delete require.cache[require.resolve(CONFIG_PATH)];
+    return require(CONFIG_PATH);
 }
 
-fs.writeFileSync(outputPath, html, 'utf-8');
-console.log('Built index.html successfully.');
+function buildSite() {
+    const config = loadConfig();
+    let html = fs.readFileSync(TEMPLATE_PATH, 'utf-8');
+
+    const replacements = {
+        '{{name}}': config.name,
+        '{{title}}': config.title,
+        '{{description}}': config.description,
+        '{{github}}': config.github,
+        '{{email}}': config.email,
+        '{{location}}': config.location,
+        '{{meta_description}}': `${config.name} - ${config.title}`,
+        '{{meta_title}}': `${config.name} | ${config.title.split(' | ')[0]}`,
+        '{{footer_year}}': config.footer.year,
+        '{{footer_name}}': config.footer.name,
+        '{{about_html}}': buildAboutHtml(config.about),
+        '{{skills_html}}': buildSkillsHtml(config.skills),
+        '{{projects_html}}': buildProjectsHtml(config.projects),
+        '{{experiences_html}}': buildExperiencesHtml(config.experiences),
+        '{{architecture_html}}': buildArchitectureHtml(config.architecture),
+    };
+
+    for (const [placeholder, value] of Object.entries(replacements)) {
+        html = html.split(placeholder).join(value);
+    }
+
+    fs.writeFileSync(OUTPUT_PATH, html, 'utf-8');
+    console.log('Built index.html successfully.');
+    return html;
+}
+
+function parseArgs(argv) {
+    const options = {
+        port: DEFAULT_PORT,
+        serve: false,
+        watch: false
+    };
+
+    for (let i = 0; i < argv.length; i += 1) {
+        const arg = argv[i];
+
+        if (arg === '--serve') {
+            options.serve = true;
+            continue;
+        }
+
+        if (arg === '--watch') {
+            options.watch = true;
+            continue;
+        }
+
+        if (arg === '--port' && argv[i + 1]) {
+            options.port = Number(argv[i + 1]);
+            i += 1;
+            continue;
+        }
+
+        if (arg.startsWith('--port=')) {
+            options.port = Number(arg.split('=')[1]);
+        }
+    }
+
+    if (!Number.isInteger(options.port) || options.port <= 0) {
+        throw new Error('Invalid port. Use a positive integer with --port.');
+    }
+
+    return options;
+}
+
+function injectLiveReload(html) {
+    if (!html.includes('</body>')) {
+        return `${html}${LIVE_RELOAD_SNIPPET}`;
+    }
+
+    return html.replace('</body>', `${LIVE_RELOAD_SNIPPET}\n</body>`);
+}
+
+function createDevServer({ port, liveReload }) {
+    const clients = new Set();
+
+    function broadcastReload(reason) {
+        for (const res of clients) {
+            res.write(`event: reload\ndata: ${reason}\n\n`);
+        }
+    }
+
+    const server = http.createServer((req, res) => {
+        const url = new URL(req.url, `http://${req.headers.host}`);
+
+        if (url.pathname === '/__events') {
+            res.writeHead(200, {
+                'Cache-Control': 'no-cache',
+                Connection: 'keep-alive',
+                'Content-Type': 'text/event-stream'
+            });
+            res.write('retry: 1000\n\n');
+            clients.add(res);
+            req.on('close', () => {
+                clients.delete(res);
+            });
+            return;
+        }
+
+        const relativePath = url.pathname === '/'
+            ? 'index.html'
+            : decodeURIComponent(url.pathname.replace(/^\/+/, ''));
+        const filePath = path.normalize(path.join(ROOT_DIR, relativePath));
+
+        if (!filePath.startsWith(ROOT_DIR)) {
+            res.writeHead(403);
+            res.end('Forbidden');
+            return;
+        }
+
+        fs.readFile(filePath, (error, file) => {
+            if (error) {
+                res.writeHead(error.code === 'ENOENT' ? 404 : 500);
+                res.end(error.code === 'ENOENT' ? 'Not found' : 'Server error');
+                return;
+            }
+
+            const ext = path.extname(filePath).toLowerCase();
+            const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+
+            res.writeHead(200, {
+                'Cache-Control': 'no-store',
+                'Content-Type': contentType
+            });
+
+            if (liveReload && ext === '.html') {
+                res.end(injectLiveReload(file.toString('utf-8')));
+                return;
+            }
+
+            res.end(file);
+        });
+    });
+
+    server.listen(port, () => {
+        console.log(`Dev server running at http://localhost:${port}`);
+    });
+
+    return { broadcastReload, server };
+}
+
+function shouldIgnore(relativePath) {
+    if (!relativePath) return true;
+
+    const normalized = relativePath.replace(/\\/g, '/');
+
+    return normalized.startsWith('.git/')
+        || normalized.startsWith('.claude/')
+        || normalized === '.DS_Store'
+        || normalized === 'index.html';
+}
+
+function shouldRebuild(relativePath) {
+    return relativePath === 'build.js'
+        || relativePath === 'config.js'
+        || relativePath === 'template.html';
+}
+
+function shouldReload(relativePath) {
+    const ext = path.extname(relativePath).toLowerCase();
+
+    return ['.css', '.gif', '.html', '.jpg', '.jpeg', '.js', '.png', '.svg', '.webp'].includes(ext);
+}
+
+function startWatcher(onReload) {
+    let timer = null;
+
+    const watcher = fs.watch(ROOT_DIR, { recursive: true }, (_, filename) => {
+        const relativePath = filename ? filename.toString() : '';
+
+        if (shouldIgnore(relativePath)) return;
+
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            try {
+                if (shouldRebuild(relativePath)) {
+                    buildSite();
+                }
+
+                if (shouldReload(relativePath)) {
+                    console.log(`Reload triggered by ${relativePath}`);
+                    onReload(relativePath);
+                }
+            } catch (error) {
+                console.error(`Watch update failed: ${error.message}`);
+            }
+        }, 80);
+    });
+
+    console.log('Watching files for changes...');
+    return watcher;
+}
+
+function main() {
+    const options = parseArgs(process.argv.slice(2));
+    buildSite();
+
+    if (!options.serve && !options.watch) {
+        return;
+    }
+
+    let broadcastReload = () => {};
+
+    if (options.serve) {
+        const server = createDevServer({
+            liveReload: options.watch,
+            port: options.port
+        });
+        broadcastReload = server.broadcastReload;
+    }
+
+    if (options.watch) {
+        startWatcher(() => {
+            broadcastReload('file-change');
+        });
+    }
+}
+
+main();
