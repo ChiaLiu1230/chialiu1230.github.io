@@ -2,7 +2,7 @@ const CONFIG = {
   // ===== 個人資料 =====
   name: "Ella Liu",
   title: "全端工程師 | App & Web Developer",
-  description: "專注於 iOS、Web 與跨平台應用開發，擅長將需求轉化為實際產品。",
+  description: "專注於 App 與 Web 全端開發，擅長將需求轉化為實際產品。",
   github: "https://github.com/ChiaLiu1230",
   email: "guccihome24485@gmail.com",
   location: "雙北地區",
