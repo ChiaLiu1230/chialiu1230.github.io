@@ -150,15 +150,21 @@ img {
 /* ===== Hero Section ===== */
 .hero {
     min-height: 100vh;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     padding: 100px 24px 60px;
-    background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 45%, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 30%, transparent 68%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.42) 0%, rgba(244, 242, 242, 0.9) 100%);
 }
 
 .hero-content {
+    position: relative;
+    z-index: 1;
     max-width: 700px;
 }
 
@@ -342,13 +348,14 @@ img {
 .projects-carousel-outer {
     position: relative;
     max-width: 1000px;
-    margin: 0 auto 60px;
+    margin: 0 auto 104px;
     transition: height 0.45s ease;
 }
 
 .pj-viewport {
     overflow: hidden;
     cursor: grab;
+    transition: height 0.45s ease;
 }
 
 .pj-viewport:active {
@@ -357,6 +364,7 @@ img {
 
 .pj-track {
     display: flex;
+    align-items: flex-start;
     gap: 24px;
     transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
@@ -365,6 +373,7 @@ img {
 /* Each slide: width set by JS; fade/scale for non-active */
 .pj-slide {
     flex: 0 0 auto;
+    align-self: flex-start;
     min-width: 0;
     opacity: 0.45;
     transform: scale(0.96);
@@ -1071,7 +1080,46 @@ img {
 /* ===== Responsive Design ===== */
 
 /* Tablet */
+@media (max-width: 900px) {
+    .projects-carousel-outer {
+        margin-bottom: 88px;
+    }
+
+    .pj-viewport {
+        overflow: visible;
+    }
+
+    .pj-track {
+        display: block;
+        transform: none !important;
+    }
+
+    .pj-slide {
+        display: none;
+        width: 100% !important;
+        flex-basis: 100% !important;
+        opacity: 1;
+        transform: none;
+    }
+
+    .pj-slide.pj-active {
+        display: block;
+    }
+
+    .pj-controls {
+        margin-top: 16px;
+    }
+}
+
 @media (max-width: 768px) {
+    .projects-carousel-outer {
+        margin-bottom: 128px;
+    }
+
+    .pj-controls {
+        margin-top: 24px;
+    }
+
     .nav-menu {
         position: fixed;
         top: 64px;
@@ -1133,6 +1181,7 @@ img {
 
     .architecture-section {
         padding: 24px;
+        margin-top: 32px;
     }
 
     .arch-layer-split {
@@ -1192,6 +1241,10 @@ img {
         padding-left: 30px;
     }
 
+    .timeline-content {
+        padding: 28px 24px;
+    }
+
     .timeline-header {
         flex-direction: column;
         gap: 4px;
@@ -1200,6 +1253,18 @@ img {
 
 /* Mobile */
 @media (max-width: 480px) {
+    .projects-carousel-outer {
+        margin-bottom: 144px;
+    }
+
+    .architecture-section {
+        margin-top: 40px;
+    }
+
+    .timeline-content {
+        padding: 28px 24px;
+    }
+
     .hero {
         padding: 80px 16px 40px;
     }
@@ -1232,10 +1297,6 @@ img {
     .contact-item {
         width: 100%;
         justify-content: center;
-    }
-
-    .timeline-content {
-        padding: 16px;
     }
 
     .arch-node {

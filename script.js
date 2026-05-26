@@ -125,12 +125,17 @@ window.addEventListener('scroll', () => {
     const prevBtn = outer.querySelector('.pj-nav-prev');
     const nextBtn = outer.querySelector('.pj-nav-next');
     const dotsContainer = outer.querySelector('.pj-dots');
+    const viewport = outer.querySelector('.pj-viewport');
 
-    if (!track || slides.length === 0) return;
+    if (!track || !viewport || slides.length === 0) return;
 
     let current = 0;
     const total = slides.length;
     const GAP = 24;
+
+    function useCompactLayout() {
+        return window.innerWidth <= 900;
+    }
 
     // How much of adjacent cards to show (px)
     function getPeek() {
@@ -142,9 +147,10 @@ window.addEventListener('scroll', () => {
 
     // Set slide widths and reposition
     function setup() {
-        const peek = getPeek();
         const outerW = outer.offsetWidth;
-        const slideW = outerW - peek * 2;
+        const slideW = useCompactLayout()
+            ? outerW
+            : outerW - getPeek() * 2;
         slides.forEach(s => {
             s.style.width = slideW + 'px';
             s.style.flexBasis = slideW + 'px';
@@ -155,6 +161,13 @@ window.addEventListener('scroll', () => {
 
     function updatePosition(animate) {
         if (!animate) track.style.transition = 'none';
+        if (useCompactLayout()) {
+            track.style.transform = 'translateX(0)';
+            if (!animate) requestAnimationFrame(() => {
+                track.style.transition = '';
+            });
+            return;
+        }
         const peek = getPeek();
         const slideW = slides[0].offsetWidth;
         const offset = peek - current * (slideW + GAP);
@@ -176,9 +189,9 @@ window.addEventListener('scroll', () => {
 
     function syncHeight() {
         const card = slides[current].querySelector('.project-card');
-        const controls = outer.querySelector('.pj-controls');
-        if (!card || !controls) return;
-        outer.style.height = (card.offsetHeight + controls.offsetHeight + 20) + 'px';
+        if (!card) return;
+        viewport.style.height = `${card.offsetHeight}px`;
+        outer.style.height = '';
     }
 
     function goTo(index) {
@@ -234,7 +247,6 @@ window.addEventListener('scroll', () => {
     }, { passive: true });
 
     // Mouse drag (exclude image area)
-    const viewport = outer.querySelector('.pj-viewport');
     let mouseStartX = 0;
     let mouseActive = false;
 
@@ -271,6 +283,11 @@ window.addEventListener('scroll', () => {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(setup, 100);
+    });
+
+    outer.querySelectorAll('img').forEach(img => {
+        if (img.complete) return;
+        img.addEventListener('load', setup, { once: true });
     });
 })();
 
